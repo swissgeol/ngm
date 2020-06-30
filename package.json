@@ -16,6 +16,8 @@
     "@geoblocks/ga-search": "^0.0.18",
     "@sentry/browser": "^5.18.0",
     "@webcomponents/webcomponentsjs": "^2.4.3",
+    "amazon-cognito-identity-js": "^4.3.2",
+    "aws-sdk": "^2.705.0",
     "cesium": "1.70.1",
     "event-target-shim": "^5.0.1",
     "fomantic-ui-css": "^2.8.6",

@@ -27,6 +27,9 @@ import Ellipsoid from 'cesium/Source/Core/Ellipsoid';
 import Auth from './auth.js';
 Auth.initialize();
 
+import S3 from './s3.js';
+S3.list();
+
 import './elements/ngm-auth.js';
 import './elements/ngm-object-information.js';
 import './elements/ngm-navigation-widgets.js';
