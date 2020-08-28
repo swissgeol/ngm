@@ -1,5 +1,6 @@
 import EarthquakeVisualizer from '../earthquakeVisualization/earthquakeVisualizer.js';
 import Resource from 'cesium/Source/Core/Resource';
+import Request from 'cesium/Source/Core/Request';
 import IonResource from 'cesium/Source/Core/IonResource';
 import GeoJsonDataSource from 'cesium/Source/DataSources/GeoJsonDataSource';
 import Cesium3DTileset from 'cesium/Source/Scene/Cesium3DTileset';
@@ -39,14 +40,53 @@ export function createIonGeoJSONFromConfig(viewer, config) {
     });
 }
 
+export function normalizeUrl(url) {
+  if (url.startsWith('http')) {
+    const idx = url.substr(9).indexOf('/');
+    url = url.substr(9 + idx);
+  }
+  let i = url.indexOf('?');
+  if (i !== -1) {
+    url = url.substr(0, i);
+  }
+  let j = url.indexOf('#');
+  if (i !== -1) {
+    url = url.substr(0, i);
+  }
+  if (!url) {
+    url = '/';
+  }
+  return url;
+}
+
+const getS3Object = key => {
+  return new Promise((resolve, reject) => {
+      s3.getObject({
+          Bucket: 'ngm-dev-authenticated-resources', // FIXME: this should not be hardcoded here
+          Key: key
+      }, (err, data) => {
+          if ( err ) reject(err)
+          else resolve(data)
+      })
+  })
+}
+
+export function createS3Request(url) {
+  let s3Key = normalizeUrl(url).substring(1)
+  return getS3Object(s3Key);
+}
+
+
 export function create3DTilesetFromConfig(viewer, config) {
 
   if (config.restricted) {
     config.url = new Resource({
       url: config.url,
-      headers: {
-        'Authorization': `basic ${Auth.getBasicAuth()}`
-      }
+      request: new Request(
+        {
+          url: config.url,
+          requestFunction: createS3Request,
+        })
     })
   }
 

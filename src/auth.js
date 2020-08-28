@@ -1,9 +1,10 @@
-import AWS from 'aws-sdk';
+//import AWS from 'aws-sdk';
 
 const cognitoState = 'cognito_state';
 const cognitoAccessToken = 'cognito_access_token';
 const cognitoIdToken = 'cognito_id_token';
-const awsBasicAuth = 'aws_basic_auth'
+const awsBasicAuth = 'aws_basic_auth';
+const awsConfigCredentials = 'aws_config_credentials';
 
 // example: #access_token=header.eyJuYW1lIjoiSm9obiBEb2UifQ.signature&token_type=Bearer&state=1234
 const isResponse = /^#[\w]+=[\w.=-]+(&[\w]+=[\w.=-]+)*$/;
@@ -134,6 +135,10 @@ export default class Auth {
     return localStorage.getItem(awsBasicAuth);
   }
 
+  static getAwsConfigCredentialsh() {
+    return JSON.parse(localStorage.getItem(awsConfigCredentials));
+  }
+
   static updateAwsCredentialsWithToken(idToken){
     AWS.config.region = 'eu-central-1';
     if (AWS.config.credentials) {
@@ -156,6 +161,7 @@ export default class Auth {
         // the backend will extract these 3 infos to construct the AWS request
         // only accessKeyId is in username placeholder, so any webserver in the middle might log it
         localStorage.setItem(awsBasicAuth, btoa(`${AWS.config.credentials.accessKeyId}:${AWS.config.credentials.secretAccessKey}.${AWS.config.credentials.sessionToken}`));
+//        localStorage.setItem(awsConfigCredentials, JSON.stringify(AWS.config.credentials));
       }
     });
   }

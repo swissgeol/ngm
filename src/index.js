@@ -30,6 +30,9 @@ import './elements/ngm-slow-loading.js';
 import './elements/ngm-full-screen-view.js';
 import {LocalStorageController} from './LocalStorageController.js';
 
+// FIXME: we use a global AWS config var for mind sanity
+var AWS = require("aws-sdk");
+var s3 = new AWS.S3();
 
 initSentry();
 setupI18n();
