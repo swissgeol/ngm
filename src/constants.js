@@ -174,8 +174,8 @@ const geo_base = {
           visible: false,
           displayed: false,
           restricted: true,
-          //url: '/tiles/bh_all_g_4326/v1/tileset.json',
-          url: 'https://vectortiles0.geo.admin.ch/3d-tiles/ch.swisstopo.swisstlm3d.3d/20190924/tileset.json',
+          url: '/tiles/bh_all_g_4326/v1/tileset.json',
+          //url: 'https://vectortiles0.geo.admin.ch/3d-tiles/ch.swisstopo.swisstlm3d.3d/20190924/tileset.json',
 
         },
         // {

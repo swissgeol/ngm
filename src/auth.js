@@ -1,5 +1,3 @@
-//import AWS from 'aws-sdk';
-
 const cognitoState = 'cognito_state';
 const cognitoAccessToken = 'cognito_access_token';
 const cognitoIdToken = 'cognito_id_token';
@@ -157,11 +155,11 @@ export default class Auth {
         console.log(AWS.config.credentials.accessKeyId);
         console.log(AWS.config.credentials.secretAccessKey);
         console.log(AWS.config.credentials.sessionToken);
-        // we build a 'fake' http basic-auth header, we use accessKeyId:secretAccessKey.sessionToken
-        // the backend will extract these 3 infos to construct the AWS request
-        // only accessKeyId is in username placeholder, so any webserver in the middle might log it
-        localStorage.setItem(awsBasicAuth, btoa(`${AWS.config.credentials.accessKeyId}:${AWS.config.credentials.secretAccessKey}.${AWS.config.credentials.sessionToken}`));
-//        localStorage.setItem(awsConfigCredentials, JSON.stringify(AWS.config.credentials));
+//         // we build a 'fake' http basic-auth header, we use accessKeyId:secretAccessKey.sessionToken
+//         // the backend will extract these 3 infos to construct the AWS request
+//         // only accessKeyId is in username placeholder, so any webserver in the middle might log it
+//         localStorage.setItem(awsBasicAuth, btoa(`${AWS.config.credentials.accessKeyId}:${AWS.config.credentials.secretAccessKey}.${AWS.config.credentials.sessionToken}`));
+// //        localStorage.setItem(awsConfigCredentials, JSON.stringify(AWS.config.credentials));
       }
     });
   }

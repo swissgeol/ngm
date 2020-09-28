@@ -16,6 +16,7 @@ import Ellipsoid from 'cesium/Source/Core/Ellipsoid';
 import Matrix3 from 'cesium/Source/Core/Matrix3';
 import Matrix4 from 'cesium/Source/Core/Matrix4';
 import Cesium3DTileColorBlendMode from 'cesium/Source/Scene/Cesium3DTileColorBlendMode';
+import S3Resource from '../S3Resource.js';
 import Auth from '../auth.js';
 
 
@@ -65,20 +66,18 @@ const getS3Object = key => {
           Bucket: 'ngm-dev-authenticated-resources', // FIXME: this should not be hardcoded here
           Key: key
       }, (err, data) => {
-          if ( err ) reject(err)
-          else resolve(data)
+          if ( err ) reject(err);
+          else resolve(data);
       })
   })
 }
 
 export function createS3Request(url) {
-  let s3Key = normalizeUrl(url).substring(1)
+  const s3Key = normalizeUrl(url).substring(1);
   return getS3Object(s3Key);
 }
 
-
 export function create3DTilesetFromConfig(viewer, config) {
-
   if (config.restricted) {
     config.url = new Resource({
       url: config.url,
@@ -87,7 +86,7 @@ export function create3DTilesetFromConfig(viewer, config) {
           url: config.url,
           requestFunction: createS3Request,
         })
-    })
+    });
   }
 
   const tileset = new Cesium3DTileset({
