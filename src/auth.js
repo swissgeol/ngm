@@ -143,9 +143,9 @@ export default class Auth {
       delete AWS.config.credentials;
     }
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'eu-central-1:21355ebf-703b-44dd-8900-f8bc391b4bde',
+      IdentityPoolId: 'eu-central-1:1aa0ce1b-a58e-4037-92a6-6c3bda051481',
       Logins: {
-          'cognito-idp.eu-central-1.amazonaws.com/eu-central-1_5wXXpcDt8': idToken
+          'cognito-idp.eu-central-1.amazonaws.com/eu-central-1_5pkIrlQhj': idToken
       }
     });
     AWS.config.credentials.get((err) => {
