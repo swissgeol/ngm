@@ -227,7 +227,7 @@ export default class Slicer {
 
   onLeftDown(event) {
     const pickedObject = this.viewer.scene.pick(event.position);
-    if (pickedObject && pickedObject.id) {
+    if (pickedObject && pickedObject.id && pickedObject.id.plane) {
       this.selectedPlane = pickedObject.id;
       this.viewer.scene.screenSpaceCameraController.enableInputs = false;
     }
@@ -241,7 +241,7 @@ export default class Slicer {
   }
 
   onMouseMove(movement) {
-    if (this.selectedPlane) {
+    if (this.selectedPlane && this.selectedPlane.properties && this.selectedPlane.properties.type) {
       const rayStart = this.viewer.camera.getPickRay(movement.startPosition);
       const intersectionStart = this.viewer.scene.globe.pick(rayStart, this.viewer.scene);
 
