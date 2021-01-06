@@ -9,8 +9,7 @@ import defaultLayerTree from '../layertree.js';
 import {getLayerParams, syncLayersParam, getAssetIds, getAttribute} from '../permalink.js';
 import {createCesiumObject} from '../layers/helpers.js';
 import i18next from 'i18next';
-import 'fomantic-ui-css/components/accordion.js';
-import $ from '../jquery.js';
+import {accordion} from '../ui/accordion.js';
 import './ngm-map-configuration.js';
 import QueryManager from '../query/QueryManager.js';
 import {getZoomToPosition} from '../permalink';
@@ -496,12 +495,5 @@ class LeftSideBar extends I18nMixin(LitElement) {
     return this;
   }
 }
-
-function accordion(element, options = {}) {
-  return $(element).accordion(Object.assign({
-    duration: 150
-  }, options));
-}
-
 
 customElements.define('ngm-left-side-bar', LeftSideBar);
