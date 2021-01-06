@@ -11,7 +11,7 @@ import {setupViewer, addMantelEllipsoid, setupBaseLayers} from './viewer.js';
 
 import {getCameraView, syncCamera} from './permalink.js';
 import HeadingPitchRange from 'cesium/Source/Core/HeadingPitchRange';
-import {showMessage} from './message.js';
+import {showMessage} from './ui/message.js';
 import i18next from 'i18next';
 import BoundingSphere from 'cesium/Source/Core/BoundingSphere';
 import Ellipsoid from 'cesium/Source/Core/Ellipsoid';

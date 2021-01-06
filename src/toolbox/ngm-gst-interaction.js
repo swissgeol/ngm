@@ -1,7 +1,7 @@
 import {LitElement, html} from 'lit-element';
 import {degreesToLv95, round} from '../projection.js';
 import {borehole, verticalCrossSection, horizontalCrossSection} from '../gst.js';
-import {showError, showWarning} from '../message.js';
+import {showError, showWarning} from '../ui/message.js';
 import i18next from 'i18next';
 import {I18nMixin} from '../i18n.js';
 import IonResource from 'cesium/Source/Core/IonResource';

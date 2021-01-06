@@ -7,7 +7,7 @@ import 'fomantic-ui-css/components/dimmer.js';
 import 'fomantic-ui-css/components/modal.js';
 import 'fomantic-ui-css/components/dropdown.js';
 import {SWISSFORAGES_EDITOR_URL} from '../constants';
-import {showWarning} from '../message';
+import {showWarning} from '../ui/message.js';
 
 class NgmSwissforagesModal extends I18nMixin(LitElement) {
 

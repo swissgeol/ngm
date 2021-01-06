@@ -18,7 +18,7 @@ import {
   AOI_POINT_SYMBOLS, HIGHLIGHTED_AOI_COLOR
 } from '../constants.js';
 import {updateColor, cleanupUploadedEntity, getUploadedEntityType, updateBoreholeHeights} from './helpers.js';
-import {showWarning} from '../message.js';
+import {showWarning, showMessage} from '../ui/message.js';
 import {I18nMixin} from '../i18n';
 import {CesiumDraw} from '../draw/CesiumDraw.js';
 import ScreenSpaceEventHandler from 'cesium/Source/Core/ScreenSpaceEventHandler';
@@ -28,7 +28,6 @@ import {updateHeightForCartesianPositions} from '../cesiumutils';
 import {applyLimits} from '../utils';
 import Cartesian2 from 'cesium/Source/Core/Cartesian2';
 import CornerType from 'cesium/Source/Core/CornerType';
-import {showMessage} from '../message';
 import Color from 'cesium/Source/Core/Color';
 import VerticalOrigin from 'cesium/Source/Scene/VerticalOrigin';
 import {DEFAULT_AOI_VOLUME_COLOR} from '../constants';

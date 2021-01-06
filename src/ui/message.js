@@ -1,4 +1,4 @@
-import $ from './jquery.js';
+import $ from '../jquery.js';
 import 'fomantic-ui-css/components/transition.js';
 import 'fomantic-ui-css/components/toast.js';
 
