@@ -2,9 +2,7 @@ import {LitElement, html} from 'lit-element';
 import i18next from 'i18next';
 import {I18nMixin} from '../i18n.js';
 
-import $ from '../jquery.js';
-import 'fomantic-ui-css/components/dimmer.js';
-import 'fomantic-ui-css/components/modal.js';
+import {modal} from '../ui/modal.js';
 
 class NgmGstModal extends I18nMixin(LitElement) {
 
@@ -17,7 +15,7 @@ class NgmGstModal extends I18nMixin(LitElement) {
   updated() {
     if (this.imageUrl) {
       if (!this.element) {
-        this.element = $('.ngm-gst-modal.ui.modal').modal({
+        this.element = modal(this.queySelector('.ngm-gst-modal.ui.modal'), {
           centered: false,
           onHidden: () => this.imageUrl = null,
           onApprove: () => window.open(this.imageUrl, '_blank')

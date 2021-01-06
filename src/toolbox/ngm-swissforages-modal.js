@@ -3,11 +3,10 @@ import i18next from 'i18next';
 import {I18nMixin} from '../i18n.js';
 
 import $ from '../jquery.js';
-import 'fomantic-ui-css/components/dimmer.js';
-import 'fomantic-ui-css/components/modal.js';
 import 'fomantic-ui-css/components/dropdown.js';
 import {SWISSFORAGES_EDITOR_URL} from '../constants';
 import {showWarning} from '../ui/message.js';
+import {modal} from '../ui/modal.js';
 
 class NgmSwissforagesModal extends I18nMixin(LitElement) {
 
@@ -29,7 +28,7 @@ class NgmSwissforagesModal extends I18nMixin(LitElement) {
   updated() {
     if (this.options.show) {
       if (!this.element) {
-        this.element = $('.ngm-swissforages-modal.ui.modal').modal({
+        this.element = modal(this.querySelector('.ngm-swissforages-modal.ui.modal', {
           centered: false,
           onHidden: () => {
             this.options.show = false;
