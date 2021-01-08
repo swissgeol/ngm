@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="src/images/favicon.png">
+
+  <script src="webcomponentsjs/webcomponents-loader.js"></script>
+
+  <link href="bundle.css" rel="stylesheet">
+
+  <title>Basic Storybook for Swissgeol</title>
+</head>
+
+<body>
+  <div class="ui fluid compact tiny buttons">
+    <ngm-button i18n="tbx_add_line_btn_label" icon="route"></ngm-button>
+
+    <button class="ui button"
+      data-tooltip=${i18next.t('tbx_add_line_btn_label')}
+      data-variation="mini"
+      data-position="top center"
+      @click=${this.onAddAreaClick_.bind(this, 'line')}>
+      <i class="route icon"></i>
+    </button>
+
+  </div>
+  <script type="module" id="app-script" crossorigin="use-credentials"></script>
+  <script type="module">
+    const debug = !location.search.includes('prod') && (location.search.includes('debug') || location.hostname === 'localhost');
+    const script = document.querySelector('#app-script');
+    script.src = debug ? 'bundle.debug.js' : 'bundle.min.js';
+  </script>
+</body>
+
+</html>
