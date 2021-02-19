@@ -147,7 +147,7 @@ class NgmAreaOfInterestDrawer extends LitElementI18n {
         </button>
       </div>
       <input id="${fileUploadInputId}" type='file' accept=".kml,.KML,.gpx,.GPX" hidden
-             @change=${this.uploadFile_.bind(this)}/>
+             @change=${this.uploadFile.bind(this)}/>
       <div class="ui tiny basic fluid buttons ngm-aoi-tooltip-container"
            ?hidden=${!this.draw_.active || this.draw_.entityForEdit}>
         <button class="ui button" @click=${this.cancelDraw.bind(this)}>${i18next.t('tbx_cancel_area_btn_label')}
@@ -586,14 +586,14 @@ class NgmAreaOfInterestDrawer extends LitElementI18n {
     this.pickArea_(id);
   }
 
-  async uploadFile_(evt) {
+  async uploadFile(evt) {
     const file = evt.target ? evt.target.files[0] : null;
     if (file) {
       evt.target.value = null;
       if (file.name.toLowerCase().endsWith('.kml')) {
-        return this.uploadKml_(file);
+        return this.uploadKml(file);
       } else if (file.name.toLowerCase().endsWith('.gpx')) {
-        return this.uploadGpx_(file);
+        return this.uploadGpx(file);
       } else {
         showWarning(i18next.t('tbx_unsupported_file_warning'));
         return;
@@ -601,7 +601,7 @@ class NgmAreaOfInterestDrawer extends LitElementI18n {
     }
   }
 
-  async uploadKml_(file) {
+  async uploadKml(file) {
     const kmlDataSource = await KmlDataSource.load(file, {
       camera: this.viewer.scene.camera,
       canvas: this.viewer.scene.canvas,
@@ -631,7 +631,7 @@ class NgmAreaOfInterestDrawer extends LitElementI18n {
     }
   }
 
-  async uploadGpx_(file) {
+  async uploadGpx(file) {
     const gpxDataSource = await GpxDataSource.load(file, {
       clampToGround: true
     });
