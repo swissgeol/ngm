@@ -1,33 +1,33 @@
-@import 'typeface-source-sans-pro/index.css';
+@import '../../node_modules/typeface-source-sans-pro/index.css';
 
-@import 'fomantic-ui-css/components/reset.css';
-@import 'fomantic-ui-css/components/message.css';
-@import 'fomantic-ui-css/components/list.css';
-@import 'fomantic-ui-css/components/item.css';
-@import 'fomantic-ui-css/components/icon.css';
-@import 'fomantic-ui-css/components/input.css';
-@import 'fomantic-ui-css/components/button.css';
-@import 'fomantic-ui-css/components/segment.css';
-@import 'fomantic-ui-css/components/checkbox.css';
-@import 'fomantic-ui-css/components/table.css';
-@import 'fomantic-ui-css/components/dimmer.css';
-@import 'fomantic-ui-css/components/loader.css';
-@import 'fomantic-ui-css/components/accordion.css';
-@import 'fomantic-ui-css/components/popup.css';
-@import 'fomantic-ui-css/components/transition.css';
-@import 'fomantic-ui-css/components/toast.css';
-@import 'fomantic-ui-css/components/divider.css';
-@import 'fomantic-ui-css/components/grid.css';
-@import 'fomantic-ui-css/components/modal.css';
-@import 'fomantic-ui-css/components/form.css';
-@import 'fomantic-ui-css/components/slider.css';
-@import 'fomantic-ui-css/components/dropdown.css';
-@import 'fomantic-ui-css/components/label.css';
-@import 'fomantic-ui-css/components/progress.css';
-@import 'fomantic-ui-css/components/header.css';
-@import 'fomantic-ui-css/components/card.css';
+@import '../../node_modules/fomantic-ui-css/components/reset.css';
+@import '../../node_modules/fomantic-ui-css/components/message.css';
+@import '../../node_modules/fomantic-ui-css/components/list.css';
+@import '../../node_modules/fomantic-ui-css/components/item.css';
+@import '../../node_modules/fomantic-ui-css/components/icon.css';
+@import '../../node_modules/fomantic-ui-css/components/input.css';
+@import '../../node_modules/fomantic-ui-css/components/button.css';
+@import '../../node_modules/fomantic-ui-css/components/segment.css';
+@import '../../node_modules/fomantic-ui-css/components/checkbox.css';
+@import '../../node_modules/fomantic-ui-css/components/table.css';
+@import '../../node_modules/fomantic-ui-css/components/dimmer.css';
+@import '../../node_modules/fomantic-ui-css/components/loader.css';
+@import '../../node_modules/fomantic-ui-css/components/accordion.css';
+@import '../../node_modules/fomantic-ui-css/components/popup.css';
+@import '../../node_modules/fomantic-ui-css/components/transition.css';
+@import '../../node_modules/fomantic-ui-css/components/toast.css';
+@import '../../node_modules/fomantic-ui-css/components/divider.css';
+@import '../../node_modules/fomantic-ui-css/components/grid.css';
+@import '../../node_modules/fomantic-ui-css/components/modal.css';
+@import '../../node_modules/fomantic-ui-css/components/form.css';
+@import '../../node_modules/fomantic-ui-css/components/slider.css';
+@import '../../node_modules/fomantic-ui-css/components/dropdown.css';
+@import '../../node_modules/fomantic-ui-css/components/label.css';
+@import '../../node_modules/fomantic-ui-css/components/progress.css';
+@import '../../node_modules/fomantic-ui-css/components/header.css';
+@import '../../node_modules/fomantic-ui-css/components/card.css';
 
-@import 'cesium/Build/Cesium/Widgets/widgets.css';
+@import '../../node_modules/cesium/Build/Cesium/Widgets/widgets.css';
 
 @import 'search.css';
 @import 'ngm-object-information.css';
@@ -74,7 +74,7 @@ header {
   padding: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
-  background-image: url('images/header-geologieportal.png');
+  background-image: url('../images/header-geologieportal.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: right;
@@ -91,7 +91,7 @@ header > a > .logo {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: url('images/outdated-background.png');
+  background-image: url('../images/outdated-background.png');
   background-repeat: no-repeat;
   background-position: center;
   background-color: #fafafb;
@@ -402,4 +402,3 @@ ngm-layer-legend-container > ngm-layer-legend {
 .ngm-slice-to-draw .content > .checkbox {
   margin-bottom: 5px;
 }
-

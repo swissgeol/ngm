@@ -12,6 +12,7 @@ import './elements/ngm-auth';
 import './elements/ngm-drop-files';
 import './elements/ngm-tracking-consent';
 import './elements/ngm-layer-legend-container';
+import logoSVG from 'bundle-text:./images/logo-CH.svg';
 
 import {
   DEFAULT_VIEW,
@@ -288,7 +289,7 @@ class NgmApp extends LitElementI18n {
   render() {
     return html`
       <header>
-        <a id="ngm-home-link" href=""><img class="logo" src="src/images/logo-CH.svg"></a>
+        <a id="ngm-home-link" href=""><img class="logo" src="${logoSVG}"></a>
         <ga-search class="ui small left icon input" types="location,layer" locationOrigins="zipcode,gg25,gazetteer">
           <input type="search" placeholder="${i18next.t('header_search_placeholder')}">
           <i class="search icon"></i>
