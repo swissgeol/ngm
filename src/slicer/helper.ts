@@ -10,7 +10,7 @@ import Rectangle from 'cesium/Source/Core/Rectangle';
 import {SLICING_BOX_HEIGHT, SLICING_BOX_LOWER_LIMIT, SLICING_BOX_MIN_SIZE} from '../constants';
 import ClippingPlane from 'cesium/Source/Scene/ClippingPlane';
 import ClippingPlaneCollection from 'cesium/Source/Scene/ClippingPlaneCollection';
-import {HeadingPitchRoll, Transforms} from 'cesium';
+import {HeadingPitchRoll, Plane, Transforms} from 'cesium';
 import {getPercent, interpolateBetweenNumbers} from '../utils.ts';
 import Quaternion from 'cesium/Source/Core/Quaternion';
 

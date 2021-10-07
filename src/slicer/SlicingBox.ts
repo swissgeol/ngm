@@ -8,7 +8,7 @@ import {
   createClippingPlanes, getBboxFromRectangle,
   getBboxFromViewRatio,
   getClippingPlaneFromSegment,
-  getOffsetFromBbox, moveSlicingBoxCorners
+  getOffsetFromBbox, getPositionsOffset, moveSlicingBoxCorners
 } from './helper.ts';
 import {Plane} from 'cesium';
 import CallbackProperty from 'cesium/Source/DataSources/CallbackProperty';
@@ -67,7 +67,7 @@ export default class SlicingBox extends SlicingToolBase {
 
   slicerArrows: SlicerArrows | null = null;
   slicingBoxEntity: Entity | null = null;
-  modelMatrix:Matrix4 | null = null;
+  modelMatrix: Matrix4 | null = null;
   sidePlanes: Plane[] = [];
 
 
@@ -181,16 +181,51 @@ export default class SlicingBox extends SlicingToolBase {
   updateBoxTileClippingPlanes(clippingPlanes, offset, center) {
     if (!clippingPlanes) return;
     clippingPlanes.removeAll();
-    this.planesPositions!.forEach(positions => {
+    const s1 = Cartesian3.midpoint(this.planesPositions[0][0], this.planesPositions[0][1], new Cartesian3());
+    const s2 = Cartesian3.midpoint(this.planesPositions[1][0], this.planesPositions[1][1], new Cartesian3());
+    const dist1 = Cartesian3.distance(s1, s2);
+    const s3 = Cartesian3.midpoint(this.planesPositions[2][0], this.planesPositions[2][1], new Cartesian3());
+    const s4 = Cartesian3.midpoint(this.planesPositions[3][0], this.planesPositions[3][1], new Cartesian3());
+    const dist2 = Cartesian3.distance(s3, s4);
+    console.log(dist1, dist2);
+    const planes = [];
+    this.planesPositions!.forEach((positions, indx) => {
       const mapRect = this.viewer.scene.globe.cartographicLimitRectangle;
       const plane = planeFromTwoPoints(positions[0], positions[1], false);
+      const bCenterOffset = getPositionsOffset(center, this.boxCenter, plane.normal);
+      const pOffset = getPositionsOffset(Cartesian3.midpoint(positions[0], positions[1], new Cartesian3()), this.boxCenter, plane.normal);
+      const pDist = Cartesian3.distance(Cartesian3.midpoint(positions[0], positions[1], new Cartesian3()), this.boxCenter);
       const p = getClippingPlaneFromSegment(positions[0], positions[1], center, mapRect, plane.normal);
+      console.log('old', p.distance, bCenterOffset + pOffset, pDist);
+      const diff = Math.abs(Math.abs(bCenterOffset + pOffset) - Math.abs(p.distance));
+      console.log('diff1', diff);
+      const diff2 = Math.abs(diff / 2 - pDist);
+      console.log('diff2', diff2);
+      if (indx === 0 || indx === 1)
+        p.distance += p.distance >= 0 ? diff2 : -diff2;
+      else
+        p.distance -= p.distance >= 0 ? diff2 : -diff2;
       if (this.options!.negate) {
         Cartesian3.negate(p.normal, p.normal);
         p.distance *= -1;
       }
+      // planes.push(p);
       clippingPlanes.add(p);
     });
+    // const distDiff1 = Math.abs(dist1 - Math.abs(planes[0].distance + planes[1].distance));
+    // const distDiff2 = Math.abs(dist2 - Math.abs(planes[2].distance + planes[3].distance));
+    // planes.forEach((p, i) => {
+    //   let distDiff = 0;
+    //   if (i === 0 || i === 1) {
+    //     distDiff = distDiff1;
+    //   } else {
+    //     distDiff = distDiff2 * 5;
+    //   }
+    //   console.log(distDiff);
+    //   p.distance > 0 ? p.distance -= distDiff : p.distance += distDiff;
+    //   console.log('new', p.distance);
+    //   clippingPlanes.add(p);
+    // });
     if (!this.options!.negate) {
       this.zPlanes!.forEach(plane => {
         plane = offset ? applyOffsetToPlane(plane, offset) : plane;
