@@ -22,8 +22,7 @@ import HeightReference from "cesium/Source/Scene/HeightReference.js";
 import HorizontalOrigin from "cesium/Source/Scene/HorizontalOrigin.js";
 import LabelStyle from "cesium/Source/Scene/LabelStyle.js";
 import VerticalOrigin from "cesium/Source/Scene/VerticalOrigin.js";
-import Autolinker from "cesium/Source/ThirdParty/Autolinker.js";
-import when from "cesium/Source/ThirdParty/when.js";
+import Autolinker from "autolinker";
 import BillboardGraphics from "cesium/Source/DataSources/BillboardGraphics.js";
 import ConstantProperty from "cesium/Source/DataSources/ConstantProperty.js";
 import DataSource from "cesium/Source/DataSources/DataSource.js";
@@ -64,7 +63,7 @@ var namespaces = {
 };
 
 function readBlobAsText(blob) {
-  var deferred = when.defer();
+  var deferred = csDefer();
   var reader = new FileReader();
   reader.addEventListener("load", function () {
     deferred.resolve(reader.result);
@@ -696,7 +695,7 @@ function load(dataSource, entityCollection, data, options) {
     }
   }
 
-  return when(promise)
+  return (promise.then ? promise : Promise.resolve())
     .then(function (dataToLoad) {
       if (dataToLoad instanceof Blob) {
         return readBlobAsText(dataToLoad).then(function (text) {
@@ -739,7 +738,7 @@ function load(dataSource, entityCollection, data, options) {
     .otherwise(function (error) {
       dataSource._error.raiseEvent(dataSource, error);
       console.log(error);
-      return when.reject(error);
+      return Promise.reject(error);
     });
 }
 
@@ -1023,7 +1022,7 @@ GpxDataSource.prototype.load = function (data, options) {
       DataSource.setLoading(that, false);
       that._error.raiseEvent(that, error);
       window.console.log(error);
-      return when.reject(error);
+      return Promise.reject(error);
     });
 };
 
