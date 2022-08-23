@@ -21,4 +21,5 @@ build_api:
 
 ui/node_modules/.timestamp: ui/package-lock.json
 	cd ui; npm ci --no-audit --ignore-scripts
+	cd ui; scripts/build_cesium_voxels.sh
 	touch $@

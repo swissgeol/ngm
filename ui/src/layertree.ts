@@ -35,6 +35,7 @@ export interface LayerTreeNode {
 export enum LayerType {
   swisstopoWMTS = 'swisstopoWMTS',
   tiles3d = '3dtiles',
+  voxels3dtiles = 'voxels3dtiles',
   ionGeoJSON = 'ionGeoJSON',
   earthquakes = 'earthquakes',
 }
@@ -832,22 +833,22 @@ const voxel_tests: LayerTreeNode = {
   label: 'Voxel test',
   children: [
     {
-      type: LayerType.tiles3d,
+      type: LayerType.voxels3dtiles,
       url: 'https://s3-eu-west-1.amazonaws.com/ngmpub-int-bgdi-ch/testvoxel/Voxel-VISP-Combined_20220311/tileset.json',
       label: 'Voxel-VISP-Combined_20220311',
     },
     {
-      type: LayerType.tiles3d,
+      type: LayerType.voxels3dtiles,
       url: 'https://s3-eu-west-1.amazonaws.com/ngmpub-int-bgdi-ch/testvoxel/Voxel-BIRR-Combined_20220311/tileset.json',
       label: 'Voxel-BIRR-Combined_20220311',
     },
     {
-      type: LayerType.tiles3d,
+      type: LayerType.voxels3dtiles,
       url: 'https://s3-eu-west-1.amazonaws.com/ngmpub-int-bgdi-ch/testvoxel/Voxel-GENF-Combined_20220311/tileset.json',
       label: 'Voxel-GENF-Combined_20220311',
     },
     {
-      type: LayerType.tiles3d,
+      type: LayerType.voxels3dtiles,
       url: 'https://s3-eu-west-1.amazonaws.com/ngmpub-int-bgdi-ch/testvoxel/Voxel-Aaretal-Combined_20220311/tileset.json',
       label: 'Voxel-Aaretal-Combined_20220311',
     },
