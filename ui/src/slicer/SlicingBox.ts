@@ -10,7 +10,7 @@ import {
   getBboxFromViewRatio,
   moveSlicingBoxCorners
 } from './helper';
-import {Plane} from 'cesium';
+import {Plane, VoxelPrimitive} from 'cesium';
 import CallbackProperty from 'cesium/Source/DataSources/CallbackProperty';
 import {
   DEFAULT_CONFIG_FOR_SLICING_ARROW,
@@ -174,11 +174,13 @@ export default class SlicingBox extends SlicingToolBase {
   }
 
   addClippingPlanes(primitive) {
-    if (!primitive.root || !primitive.boundingSphere) return;
-    const planes = [...this.sidePlanes];
-    if (!this.options!.negate) {
-      planes.push(...this.zPlanes!);
-    }
+      const planes = [...this.sidePlanes];
+      if (!this.options!.negate) {
+          planes.push(...this.zPlanes!);
+      }
+    if (primitive instanceof VoxelPrimitive && this.options) {
+      primitive.clippingPlanes = createClippingPlanes(planes, !this.options.negate);
+    } else if (!primitive.root || !primitive.boundingSphere) return;
     primitive.clippingPlanes = createClippingPlanes(planes, !this.options!.negate);
     this.syncPlanes();
   }
@@ -311,7 +313,23 @@ export default class SlicingBox extends SlicingToolBase {
     this.updateSidePlanes();
     this.updateBoxGlobeClippingPlanes(this.viewer.scene.globe.clippingPlanes);
     executeForAllPrimitives(this.viewer, (primitive) => {
-      if (primitive.root && primitive.boundingSphere) {
+      if (primitive instanceof VoxelPrimitive && this.options) {
+        const clippingPlanes = primitive.clippingPlanes;
+        const bbox = this.bbox;
+        const options = this.options;
+        if (!clippingPlanes || !bbox || !options) return;
+        const backPlane = planeFromTwoPoints(bbox.corners.bottomLeft, bbox.corners.bottomRight, !options.negate);
+        const frontPlane = planeFromTwoPoints(bbox.corners.topRight, bbox.corners.topLeft, !options.negate);
+        const rightPlane = planeFromTwoPoints(bbox.corners.bottomRight, bbox.corners.topRight, !options.negate);
+        const leftPlane = planeFromTwoPoints(bbox.corners.topLeft, bbox.corners.bottomLeft, !options.negate);
+
+        clippingPlanes.removeAll();
+        [backPlane, leftPlane, frontPlane, rightPlane].forEach(plane => clippingPlanes.add(plane));
+        if (!options.negate) {
+          const transform = Matrix4.negate(this.modelMatrix!, new Matrix4());
+          this.zPlanes!.forEach(plane => clippingPlanes.add(Plane.transform(plane, transform)));
+        }
+      } else if (primitive.root && primitive.boundingSphere) {
         this.updateBoxTileClippingPlanes(primitive);
       }
     });
