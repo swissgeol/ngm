@@ -30,7 +30,7 @@
     "@geoblocks/cesium-view-cube": "0.1.0",
     "@geoblocks/ga-search": "0.0.20",
     "@sentry/browser": "7.19.0",
-    "cesium": "https://api.github.com/repos/CesiumGS/cesium/tarball/3485b2f20ab2ddaf499d97b6c63db898d0d52f03",
+    "cesium": "https://api.github.com/repos/CesiumGS/cesium/tarball/330712beacd928bbd3dc33695c7fb5804ff1e4f5",
     "d3-array": "3.2.0",
     "d3-axis": "3.0.0",
     "d3-scale": "4.0.2",

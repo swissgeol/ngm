@@ -8,7 +8,7 @@ import KeyboardNavigation from './KeyboardNavigation.js';
 import MapChooser from './MapChooser';
 import {addSwisstopoLayer} from './swisstopoImagery.js';
 
-import type {ImageryLayer} from 'cesium';
+import type {ImageryLayer, WebGLOptions} from 'cesium';
 import {DirectionalLight, ScreenSpaceEventHandler, Matrix4, Transforms, KeyboardEventModifier,
   CameraEventType, SingleTileImageryProvider, ScreenSpaceEventType, PostProcessStage, Cartesian4, CesiumInspector,
   Rectangle, Ion, Color, Cartesian3, Ellipsoid, JulianDate, IonResource, CesiumTerrainProvider, RequestScheduler,
@@ -115,10 +115,8 @@ export function setupViewer(container: Element, rethrowRenderErrors) {
 
   const webgl = {
     powerPreference: 'high-performance'
-  };
+  } as WebGLOptions;
   if (searchParams.has('preserveDrawingBuffer')) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     webgl.preserveDrawingBuffer = true;
   }
   const viewer = new Viewer(container, {

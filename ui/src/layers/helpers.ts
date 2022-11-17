@@ -12,6 +12,7 @@ import {
   Matrix3,
   Matrix4,
   Cesium3DTileColorBlendMode,
+  Cesium3DTilesVoxelProvider,
   VoxelPrimitive,
 } from 'cesium';
 import {getSwisstopoImagery} from '../swisstopoImagery.js';
