@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
           cache: npm
           cache-dependency-path: ui/package-lock.json
       - name: Log into Docker hub
@@ -38,7 +38,7 @@ jobs:
           DOCKERHUB_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
         run: |
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-      - run: docker pull rust:1.58
+      - run: docker pull rust:1.63
       - name: Run local api tests
         run: make acceptance
 
@@ -55,8 +55,8 @@ jobs:
         run: |
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       # Make sure we are building and deploying image with latest security fixes
-      - run: docker pull rust:1.58
-      - run: docker pull alpine:3.15
+      - run: docker pull rust:1.63
+      - run: docker pull alpine:3.16
       - name: Build api
         run: make build_api
       - name: Push to docker hub and deploy to dev
@@ -78,7 +78,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
           cache: npm
           cache-dependency-path: ui/package-lock.json
 
@@ -99,9 +99,6 @@ jobs:
 
       - name: Build
         run: export RELEASE_NAME="${scripts/get_github_name.sh}"; echo $RELEASE_NAME; cd ui; npm run build
-
-      - name: Build storybook
-        run: cd ui; npm run build-storybook
 
       - name: Deploy to S3
         env:

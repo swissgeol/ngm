@@ -19,12 +19,14 @@ import {createCesiumObject} from '../layers/helpers';
 import i18next from 'i18next';
 import 'fomantic-ui-css/components/accordion.js';
 import './ngm-map-configuration';
-import Cartesian3 from 'cesium/Source/Core/Cartesian3';
-import HeadingPitchRange from 'cesium/Source/Core/HeadingPitchRange';
-import BoundingSphere from 'cesium/Source/Core/BoundingSphere';
-import ScreenSpaceEventHandler from 'cesium/Source/Core/ScreenSpaceEventHandler';
-import ScreenSpaceEventType from 'cesium/Source/Core/ScreenSpaceEventType';
-import CMath from 'cesium/Source/Core/Math';
+import {
+  Cartesian3,
+  HeadingPitchRange,
+  BoundingSphere,
+  ScreenSpaceEventHandler,
+  ScreenSpaceEventType,
+  Math as CMath
+} from 'cesium';
 import {showSnackbarError, showSnackbarInfo} from '../notifications';
 import auth from '../store/auth';
 import './ngm-share-link.ts';
@@ -185,7 +187,6 @@ export class SideBar extends LitElementI18n {
       </div>
       <ngm-dashboard class="ngm-side-bar-panel ngm-large-panel"
         ?hidden=${this.activePanel !== 'dashboard'}
-        .mobileView="${this.mobileView}"
         @close=${() => this.activePanel = ''}
         @layerclick=${evt => this.onCatalogLayerClicked(evt)}
       ></ngm-dashboard>
