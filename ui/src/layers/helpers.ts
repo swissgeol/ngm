@@ -45,7 +45,7 @@ export function createIonGeoJSONFromConfig(viewer: Viewer, config) {
 }
 
 
-export function create3DVoxelsTilesetFromConfig(viewer: Viewer, config: Config, _) {
+export function create3DVoxelsTilesetFromConfig(viewer: Viewer, config: Config, _): VoxelPrimitive {
   const provider = new Cesium3DTilesVoxelProvider({
     url: config.url!,
   });
@@ -67,13 +67,10 @@ export function create3DVoxelsTilesetFromConfig(viewer: Viewer, config: Config, 
   };
 
   primitive.readyPromise.then(() => {
-    const properties = primitive.provider.names;
-    console.log('Voxels3d properties', properties);
-    const search = new URLSearchParams(document.location.search);
-    const index = parseInt(search.get('voxel_idx') || '0');
-    const property = properties[index];
-    console.log('Selected', property);
-    primitive.customShader = getVoxelShader(property);
+    if (!primitive.provider.names.includes(config.voxelDataName)) {
+      throw new Error(`Voxel data name ${config.voxelDataName} not found in the tileset`);
+    }
+    primitive.customShader = getVoxelShader(config.voxelDataName, config.voxelColors);
     viewer.camera.flyToBoundingSphere(primitive.boundingSphere, {
       duration: 0.0,
     });

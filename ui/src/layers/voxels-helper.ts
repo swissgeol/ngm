@@ -1,17 +1,23 @@
-import {Color, CustomShader, TextureUniform, UniformType} from 'cesium';
+import {CustomShader, TextureUniform, UniformType} from 'cesium';
+import type {VoxelColors} from '../layertree';
 
-function createCustomShader(property, colorRamp) {
+type ColorRamp = {
+  image: Uint8Array,
+  width: number,
+  height: number,
+}
+
+function createCustomShader(property: string, colorRamp: ColorRamp, min: number, max: number, noData: number): CustomShader {
   return new CustomShader({
     fragmentShaderText: `
       void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
       {
         float value = fsInput.metadata.${property};
-        float min = fsInput.metadata.statistics.${property}.min;
-        float max = fsInput.metadata.statistics.${property}.max;
-
-        // TODO: use noData instead
-        if (value >= min && value <= max) {
-          float lerp = (value - min) / (max - min);
+        if (value == u_noData) {
+          // FIXME: strange display of no data
+          //discard;
+        } else if (value >= u_min && value <= u_max) {
+          float lerp = (value - u_min) / (u_max - u_min);
           material.diffuse = texture2D(u_colorRamp, vec2(lerp, 0.5)).rgb;
           material.alpha = 1.0;
         }
@@ -25,61 +31,54 @@ function createCustomShader(property, colorRamp) {
           height: colorRamp.height,
         }),
       },
+      u_min: {
+        type: UniformType.FLOAT,
+        value: min,
+      },
+      u_max: {
+        type: UniformType.FLOAT,
+        value: max,
+      },
+      u_noData: {
+        type: UniformType.FLOAT,
+        value: noData,
+      },
     },
 });
 }
 
-const rampWidth = 128;
-const rampHeight = 1;
-
-function createColorRamp(colorsAndStops) {
+function createColorRamp(colors: string[]): ColorRamp {
   const ramp = document.createElement('canvas');
-  ramp.width = rampWidth;
-  ramp.height = rampHeight;
+  ramp.width = 128;
+  ramp.height = 1;
   const ctx = ramp.getContext('2d')!;
   const grd = ctx.createLinearGradient(0, 0, ramp.width, 0);
 
-  const length = colorsAndStops.length;
+  const length = colors.length;
+  const step = 1 / (length - 1);
   for (let i = 0; i < length; i++) {
-    let color;
-    let stop;
-    const entry = colorsAndStops[i];
-    if (entry instanceof Color) {
-      stop = i / (length - 1);
-      color = entry;
-    } else {
-      stop = entry.stop;
-      color = entry.color;
-    }
-    const cssColor = color.toCssColorString();
-    grd.addColorStop(stop, cssColor);
+    const color = colors[i];
+    grd.addColorStop(i * step, color !== null ? colors[i] : 'rgba(0, 0, 0, 0)');
   }
 
   ctx.fillStyle = grd;
   ctx.fillRect(0, 0, ramp.width, ramp.height);
 
   const imageData = ctx.getImageData(0, 0, ramp.width, ramp.height);
-  const array = new Uint8Array(imageData.data.buffer);
-  return array;
+  return {
+    image: new Uint8Array(imageData.data.buffer),
+    width: ramp.width,
+    height: ramp.height,
+  };
 }
-
-const colorRamp = {
-  image: createColorRamp([
-    Color.fromCssColorString('rgba(94,58,180,1)'),
-    Color.fromCssColorString('rgba(57,159,193,1)'),
-    Color.fromCssColorString('rgba(255,172,54,1)'),
-    Color.fromCssColorString('rgba(253,29,29,1)'),
-  ]),
-  width: rampWidth,
-  height: rampHeight
-};
 
 
 const shaders: Record<string, CustomShader> = {};
-export function getVoxelShader(property: string): CustomShader {
+export function getVoxelShader(property: string, colors: VoxelColors): CustomShader {
   let s = shaders[property];
   if (!s) {
-    s = shaders[property] = createCustomShader(property, colorRamp);
+    const colorRamp = createColorRamp(colors.colors);
+    s = shaders[property] = createCustomShader(property, colorRamp, colors.range[0], colors.range[1], colors.noData);
   }
   return s;
 }
