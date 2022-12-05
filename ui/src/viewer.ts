@@ -113,12 +113,10 @@ export function setupViewer(container: Element, rethrowRenderErrors) {
     url: terrainUrl
   });
 
-  const webgl = {
-    powerPreference: 'high-performance'
-  } as WebGLOptions;
-  if (searchParams.has('preserveDrawingBuffer')) {
-    webgl.preserveDrawingBuffer = true;
-  }
+  const webgl: WebGLOptions = {
+    powerPreference: 'high-performance',
+    preserveDrawingBuffer: searchParams.has('preserveDrawingBuffer')
+  };
   const viewer = new Viewer(container, {
     contextOptions: {
       webgl

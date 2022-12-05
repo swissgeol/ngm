@@ -1,5 +1,5 @@
 use axum::Router;
-use clap::StructOpt;
+use clap::Parser;
 use hyper::{Body, Request, StatusCode};
 use tower::ServiceExt;
 use uuid::Uuid; // for `app.oneshot()`

@@ -1,6 +1,5 @@
+use clap::Parser;
 use std::net::SocketAddr;
-
-use clap::StructOpt;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

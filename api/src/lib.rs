@@ -5,11 +5,14 @@ use axum::{
     routing::post,
     Router,
 };
-use clap::StructOpt;
+use clap::Parser;
 use hyper::header::{ACCEPT, AUTHORIZATION};
 use sqlx::PgPool;
 use tower::ServiceBuilder;
 use tower_http::{cors::CorsLayer, trace::TraceLayer};
+
+pub use config::Config;
+pub use error::Error;
 
 mod auth;
 mod config;
@@ -17,9 +20,6 @@ mod database;
 mod error;
 mod handlers;
 mod s3;
-
-pub use config::Config;
-pub use error::Error;
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
 
