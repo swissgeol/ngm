@@ -37,7 +37,7 @@ export interface LayerTreeNode {
 export interface VoxelColors {
   range: number[];
   noData: number;
-  colors: string[];
+  colors: (string|null)[];
 }
 
 export enum LayerType {
