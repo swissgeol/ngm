@@ -71,9 +71,6 @@ export function create3DVoxelsTilesetFromConfig(viewer: Viewer, config: Config, 
       throw new Error(`Voxel data name ${config.voxelDataName} not found in the tileset`);
     }
     primitive.customShader = getVoxelShader(config.voxelDataName, config.voxelColors);
-    viewer.camera.flyToBoundingSphere(primitive.boundingSphere, {
-      duration: 0.0,
-    });
   });
 
   return primitive;
