@@ -70,7 +70,7 @@ export function create3DVoxelsTilesetFromConfig(viewer: Viewer, config: Config, 
     if (!primitive.provider.names.includes(config.voxelDataName)) {
       throw new Error(`Voxel data name ${config.voxelDataName} not found in the tileset`);
     }
-    primitive.customShader = getVoxelShader(config.voxelDataName, config.voxelColors);
+    primitive.customShader = getVoxelShader(config);
   });
 
   return primitive;

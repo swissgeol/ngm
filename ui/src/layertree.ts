@@ -32,6 +32,7 @@ export interface LayerTreeNode {
   children?: LayerTreeNode[];
   voxelDataName?: string;
   voxelColors?: VoxelColors;
+  voxelFilter?: any;
 }
 
 export interface VoxelColors {
@@ -708,6 +709,16 @@ const subsurface: LayerTreeNode = {
           url: 'https://download.swissgeol.ch/testvoxel/Voxel-Aaretal-Combined_20220311/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
+          voxelFilter: {
+            lithologyDataName: 'Index',
+            lithology: [
+              {index: 1, label: 'Künstliche Auffüllung'},
+              {index: 5, label: 'Hangschutt'},
+              {index: 6, label: 'Bachschutt'},
+              {index: 7, label: 'Spät- bis postglaziale Schotter'},
+              {index: 21, label: 'Oppligen-Sand'},
+            ],
+          },
           label: t('lyr_voxel_aaretal_logk_label'),
           layer: 'voxel_aaretal_logk',
           opacityDisabled: true,

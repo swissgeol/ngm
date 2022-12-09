@@ -1,5 +1,4 @@
 import {CustomShader, TextureUniform, UniformType} from 'cesium';
-import type {VoxelColors} from '../layertree';
 
 type ColorRamp = {
   image: Uint8Array,
@@ -7,21 +6,70 @@ type ColorRamp = {
   height: number,
 }
 
-function createCustomShader(property: string, colorRamp: ColorRamp, min: number, max: number, noData: number): CustomShader {
-  return new CustomShader({
-    fragmentShaderText: `
+
+function createCustomShader(config): CustomShader {
+  const colors = config.voxelColors;
+  const colorRamp = createColorRamp(colors.colors);
+
+  const min = colors.range[0];
+  const max = colors.range[1];
+  const noData = colors.noData;
+  const lithology = config.voxelFilter?.lithology;
+
+  let fragmentShaderText = '';
+  if (lithology) {
+    fragmentShaderText =`
+      bool bitSet(int value, int index) {
+        // return mod(floor((value + 0.5) / pow(2.0, float(index))), 2.0);
+        return mod(floor((float(value) + 0.5) / pow(2.0, float(index))), 2.0) > 0.0;
+      }
+
       void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
       {
-        float value = fsInput.metadata.${property};
+        const int lithology_mapping_length = ${lithology.length};
+        float lithology_mapping[lithology_mapping_length];
+        ${lithology.map((lithology, index) => `lithology_mapping[${index}] = ${lithology.index.toFixed(1)};`).join(' ')}
+
+        float value = fsInput.metadata.${config.voxelDataName};
+        float lithology = fsInput.metadata.${config.voxelFilter.lithologyDataName};
+
         if (value == u_noData) {
-          // FIXME: strange display of no data
-          //discard;
-        } else if (value >= u_min && value <= u_max) {
+          return;
+        }
+
+        bool valueInRange = value >= u_filter_min && value <= u_filter_max;
+
+        bool lithologySelected = true;
+        for (int i = 0; i < lithology_mapping_length; i++) {
+          if (lithology == lithology_mapping[i] && bitSet(u_filter_lithology_exclude, i)) {
+            lithologySelected = false;
+            break;
+          }
+        }
+
+        if (valueInRange && lithologySelected) {
           float lerp = (value - u_min) / (u_max - u_min);
           material.diffuse = texture2D(u_colorRamp, vec2(lerp, 0.5)).rgb;
           material.alpha = 1.0;
         }
-      }`,
+        // FIXME: add 'or' and 'xor'
+      }`;
+  } else {
+    fragmentShaderText =`
+      void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
+      {
+        float value = fsInput.metadata.${config.voxelDataName};
+
+        if (value != u_noData && value >= u_filter_min && value <= u_filter_max) {
+          float lerp = (value - u_min) / (u_max - u_min);
+          material.diffuse = texture2D(u_colorRamp, vec2(lerp, 0.5)).rgb;
+          material.alpha = 1.0;
+        }
+      }`;
+  }
+
+  return new CustomShader({
+    fragmentShaderText: fragmentShaderText,
     uniforms: {
       u_colorRamp: {
         type: UniformType.SAMPLER_2D,
@@ -38,6 +86,18 @@ function createCustomShader(property: string, colorRamp: ColorRamp, min: number,
       u_max: {
         type: UniformType.FLOAT,
         value: max,
+      },
+      u_filter_min: {
+        type: UniformType.FLOAT,
+        value: min,
+      },
+      u_filter_max: {
+        type: UniformType.FLOAT,
+        value: max,
+      },
+      u_filter_lithology_exclude: {
+        type: UniformType.INT,
+        value: 0,
       },
       u_noData: {
         type: UniformType.FLOAT,
@@ -74,11 +134,10 @@ function createColorRamp(colors: string[]): ColorRamp {
 
 
 const shaders: Record<string, CustomShader> = {};
-export function getVoxelShader(property: string, colors: VoxelColors): CustomShader {
-  let s = shaders[property];
-  if (!s) {
-    const colorRamp = createColorRamp(colors.colors);
-    s = shaders[property] = createCustomShader(property, colorRamp, colors.range[0], colors.range[1], colors.noData);
+export function getVoxelShader(config): CustomShader {
+  let shader = shaders[config.layer];
+  if (!shader) {
+    shader = shaders[config.layer] = createCustomShader(config);
   }
-  return s;
+  return shader;
 }

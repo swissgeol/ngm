@@ -60,6 +60,7 @@
 @import 'topographic-profile.css';
 @import 'view-menu.css';
 @import 'project-selector.css';
+@import 'ngm-voxel-filter.css';
 
 * {
   scrollbar-color: light;

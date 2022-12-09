@@ -1,0 +1,8 @@
+ngm-voxel-filter {
+  width: 260px;
+}
+
+ngm-voxel-filter .lithology-checkbox {
+  display: flex;
+  flex-direction: column;
+}
