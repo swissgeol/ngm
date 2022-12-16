@@ -18,7 +18,7 @@ function createCustomShader(config): CustomShader {
 
   let fragmentShaderText = '';
   if (lithology) {
-    fragmentShaderText =`
+    fragmentShaderText = `
       bool bitSet(int value, int index) {
         // return mod(floor((value + 0.5) / pow(2.0, float(index))), 2.0);
         return mod(floor((float(value) + 0.5) / pow(2.0, float(index))), 2.0) > 0.0;
@@ -47,15 +47,23 @@ function createCustomShader(config): CustomShader {
           }
         }
 
-        if (valueInRange && lithologySelected) {
+        bool display = false;
+        if (u_filter_operator == 0) { // and
+          display = valueInRange && lithologySelected;
+        } else if (u_filter_operator == 1) { // or
+          display = valueInRange || lithologySelected;
+        } else if (u_filter_operator == 2) { // xor
+          display = valueInRange != lithologySelected;
+        }
+
+        if (display) {
           float lerp = (value - u_min) / (u_max - u_min);
           material.diffuse = texture2D(u_colorRamp, vec2(lerp, 0.5)).rgb;
           material.alpha = 1.0;
         }
-        // FIXME: add 'or' and 'xor'
       }`;
   } else {
-    fragmentShaderText =`
+    fragmentShaderText = `
       void fragmentMain(FragmentInput fsInput, inout czm_modelMaterial material)
       {
         float value = fsInput.metadata.${config.voxelDataName};
@@ -96,6 +104,10 @@ function createCustomShader(config): CustomShader {
         value: max,
       },
       u_filter_lithology_exclude: {
+        type: UniformType.INT,
+        value: 0,
+      },
+      u_filter_operator: {
         type: UniformType.INT,
         value: 0,
       },

@@ -1,7 +1,7 @@
 // FIXME: reset filter on close
 
 import i18next from 'i18next';
-import {html} from 'lit';
+import {html, nothing} from 'lit';
 import {customElement, property, queryAll} from 'lit/decorators.js';
 import {LitElementI18n} from '../i18n';
 import draggable from './draggable';
@@ -46,16 +46,29 @@ export class NgmVoxelFilter extends LitElementI18n {
           ${i18next.t('vox_filter_max')}
           <input class="ui" type="number" .value="${this.max}" max="${this.maxValue}" @input="${evt => this.max = evt.target.value}"/>
         </div>
-        <!-- <div>
-          AND
-          OR
-          XOR
-        </div> -->
+        ${this.config.voxelFilter?.lithology ? html`
+        <div>
+          <div class="">
+            <div class="ui radio checkbox">
+              <input type="radio" name="operator" value="0" checked>
+              <label>${i18next.t('vox_filter_and')}</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="operator" value="1">
+              <label>${i18next.t('vox_filter_or')}</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="operator" value="2">
+              <label>${i18next.t('vox_filter_xor')}</label>
+            </div>
+          </div>
+        </div>
         <div class="lithology-checkbox">
-          ${this.config.voxelFilter?.lithology ?? repeat(this.config.voxelFilter.lithology, (lithology: any) =>
+          ${repeat(this.config.voxelFilter.lithology, (lithology: any) =>
             html`<label><input type="checkbox" value="${lithology.index}" checked> ${lithology.label}</label>`
           )}
         </div>
+        ` : nothing}
         <button class="ui button ngm-action-btn" @click="${() => this.applyFilter()}">
           ${i18next.t('vox_filter_apply')}
         </button>
@@ -63,6 +76,7 @@ export class NgmVoxelFilter extends LitElementI18n {
       ${dragArea}
     `;
   }
+
   applyFilter() {
     const shader = getVoxelShader(this.config);
     shader.setUniform('u_filter_min', this.min);
@@ -75,6 +89,10 @@ export class NgmVoxelFilter extends LitElementI18n {
       }
     });
     shader.setUniform('u_filter_lithology_exclude', lithologyExclude);
+    const operator = this.querySelector('input[name="operator"]:checked');
+    if (operator) {
+      shader.setUniform('u_filter_operator', operator.value);
+    }
 
     this.viewer.scene.requestRender();
   }
