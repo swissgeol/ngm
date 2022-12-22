@@ -1,5 +1,9 @@
 ngm-voxel-filter {
-  width: 260px;
+  width: 520px;
+}
+
+ngm-voxel-filter input[type="number"] {
+  width: 80px;
 }
 
 ngm-voxel-filter .lithology-checkbox {

@@ -35,12 +35,12 @@ export class NgmVoxelFilter extends LitElementI18n {
   render() {
     return html`
       <div class="ngm-floating-window-header drag-handle">
-        ${i18next.t('vox_filter_filtering_on')}
+        ${i18next.t('vox_filter_filtering_on')}: ${i18next.t(this.config.label)}
         <div class="ngm-close-icon" @click=${() => this.hidden = true}></div>
       </div>
       <div class="content-container">
         <div>
-          Hydraulic Conductivity:
+          <div>${i18next.t('vox_filter_hydraulic_conductivity')}</div>
           ${i18next.t('vox_filter_min')}
           <input class="ui" type="number" .value="${this.min}" min="${this.minValue}" @input="${evt => this.min = evt.target.value}"/>
           ${i18next.t('vox_filter_max')}
