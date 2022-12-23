@@ -1,5 +1,3 @@
-// FIXME: reset filter on close
-
 import i18next from 'i18next';
 import {html, nothing} from 'lit';
 import {customElement, property, queryAll} from 'lit/decorators.js';
@@ -20,8 +18,8 @@ export class NgmVoxelFilter extends LitElementI18n {
   private min = NaN;
   private max = NaN;
 
-  private minValue: number | undefined;
-  private maxValue: number | undefined;
+  private minValue = NaN;
+  private maxValue = NaN;
 
   shouldUpdate(): boolean {
     return this.config !== undefined;
@@ -30,13 +28,14 @@ export class NgmVoxelFilter extends LitElementI18n {
   willUpdate() {
     this.minValue = this.min = this.config.voxelColors!.range[0];
     this.maxValue = this.max = this.config.voxelColors!.range[1];
+    this.hidden = false;
   }
 
   render() {
     return html`
       <div class="ngm-floating-window-header drag-handle">
-        ${i18next.t('vox_filter_filtering_on')}: ${i18next.t(this.config.label)}
-        <div class="ngm-close-icon" @click=${() => this.hidden = true}></div>
+        ${i18next.t('vox_filter_filtering_on')} ${i18next.t(this.config.label)}
+        <div class="ngm-close-icon" @click=${() => this.close()}></div>
       </div>
       <div class="content-container">
         <div>
@@ -69,12 +68,20 @@ export class NgmVoxelFilter extends LitElementI18n {
           )}
         </div>
         ` : nothing}
-        <button class="ui button ngm-action-btn" @click="${() => this.applyFilter()}">
-          ${i18next.t('vox_filter_apply')}
-        </button>
+        <div>
+          <button class="ui button ngm-action-btn" @click="${() => this.applyFilter()}">
+            ${i18next.t('vox_filter_apply')}
+          </button>
+        </div>
       </div>
       ${dragArea}
     `;
+  }
+
+  close() {
+    this.hidden = true;
+    this.resetFilter();
+    this.config = undefined;
   }
 
   applyFilter() {
@@ -97,11 +104,20 @@ export class NgmVoxelFilter extends LitElementI18n {
     this.viewer.scene.requestRender();
   }
 
+  resetFilter() {
+    const shader = getVoxelShader(this.config);
+    shader.setUniform('u_filter_min', this.minValue);
+    shader.setUniform('u_filter_max', this.maxValue);
+    shader.setUniform('u_filter_lithology_exclude', 0);
+    shader.setUniform('u_filter_operator', 0);
+    this.viewer.scene.requestRender();
+  }
+
+
   firstUpdated() {
     draggable(this, {
       allowFrom: '.drag-handle'
     });
-    this.hidden = false;
   }
 
   createRenderRoot() {
