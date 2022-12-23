@@ -89,7 +89,7 @@ export class NgmVoxelFilter extends LitElementI18n {
       }
     });
     shader.setUniform('u_filter_lithology_exclude', lithologyExclude);
-    const operator = this.querySelector('input[name="operator"]:checked');
+    const operator = this.querySelector<HTMLInputElement>('input[name="operator"]:checked');
     if (operator) {
       shader.setUniform('u_filter_operator', operator.value);
     }
