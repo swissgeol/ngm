@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "postinstall": "scripts/build_cesium_voxels.sh",
     "lint": "eslint src/ --ext .ts,.js",
     "extract-from-assets": "node scripts/get_assets_properties.js src/assets_properties.js",
     "extract-i18n": "i18next -c i18next-parser.config.cjs",
@@ -30,7 +29,7 @@
     "@geoblocks/cesium-view-cube": "0.1.0",
     "@geoblocks/ga-search": "0.0.20",
     "@sentry/browser": "7.28.1",
-    "cesium": "https://api.github.com/repos/CesiumGS/cesium/tarball/d62685ec6493e66487ddd349a483d7066a094f6e",
+    "cesium": "1.101.0",
     "d3-array": "3.2.1",
     "d3-axis": "3.0.0",
     "d3-scale": "4.0.2",
