@@ -531,7 +531,7 @@ const geo_energy: LayerTreeNode = {
       children: [
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-Temperaturmodell-GeoMol15/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-Temperaturmodell-GeoMol15/tileset.json',
           voxelDataName: 'Temp_C',
           voxelColors: temperaturVoxelColors,
           label: t('lyr_temperature_model_label'),
@@ -704,7 +704,7 @@ const subsurface: LayerTreeNode = {
       children: [
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-Aaretal-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-Aaretal-Combined/tileset.json',
           voxelDataName: 'Index',
           voxelColors: aaretalIndexVoxelColors,
           voxelFilter: aaretalVoxelFilter,
@@ -718,7 +718,7 @@ const subsurface: LayerTreeNode = {
         },
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-Aaretal-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-Aaretal-Combined/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
           voxelFilter: aaretalVoxelFilter,
@@ -732,7 +732,7 @@ const subsurface: LayerTreeNode = {
         },
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-BIRR-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-BIRR-Combined/tileset.json',
           voxelDataName: 'Index',
           voxelColors: birrIndexVoxelColors,
           label: t('lyr_voxel_birrfeld_litho_label'),
@@ -745,7 +745,7 @@ const subsurface: LayerTreeNode = {
         },
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-BIRR-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-BIRR-Combined/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
           label: t('lyr_voxel_birrfeld_logk_label'),
@@ -758,7 +758,7 @@ const subsurface: LayerTreeNode = {
         },
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-GENF-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-GENF-Combined/tileset.json',
           voxelDataName: 'Index',
           voxelColors: genevaIndexVoxelColors,
           label: t('lyr_voxel_geneva_litho_label'),
@@ -771,7 +771,7 @@ const subsurface: LayerTreeNode = {
         },
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-GENF-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-GENF-Combined/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
           label: t('lyr_voxel_geneva_logk_label'),
@@ -784,7 +784,7 @@ const subsurface: LayerTreeNode = {
         },
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-VISP-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-VISP-Combined/tileset.json',
           voxelDataName: 'Index',
           voxelColors: vispIndexVoxelColors,
           label: t('lyr_voxel_visp_litho_label'),
@@ -797,7 +797,7 @@ const subsurface: LayerTreeNode = {
         },
         {
           type: LayerType.voxels3dtiles,
-          url: 'https://download.swissgeol.ch/testvoxel/Voxel-VISP-Combined_20220311/tileset.json',
+          url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-VISP-Combined/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
           label: t('lyr_voxel_visp_logk_label'),
