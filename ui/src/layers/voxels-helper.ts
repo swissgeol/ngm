@@ -31,13 +31,15 @@ function createCustomShader(config): CustomShader {
         ${lithology.map((lithology, index) => `lithology_mapping[${index}] = ${lithology.index.toFixed(1)};`).join(' ')}
 
         float value = fsInput.metadata.${config.voxelDataName};
+
         float lithology = fsInput.metadata.${config.voxelFilter.lithologyDataName};
+        float conductivity = fsInput.metadata.${config.voxelFilter.conductivityDataName};
 
         if (value == u_noData) {
           return;
         }
 
-        bool valueInRange = value >= u_filter_min && value <= u_filter_max;
+        bool conductivityInRange = conductivity >= u_filter_conductivity_min && conductivity <= u_filter_conductivity_max;
 
         bool lithologySelected = true;
         for (int i = 0; i < lithology_mapping_length; i++) {
@@ -49,11 +51,11 @@ function createCustomShader(config): CustomShader {
 
         bool display = false;
         if (u_filter_operator == 0) { // and
-          display = valueInRange && lithologySelected;
+          display = conductivityInRange && lithologySelected;
         } else if (u_filter_operator == 1) { // or
-          display = valueInRange || lithologySelected;
+          display = conductivityInRange || lithologySelected;
         } else if (u_filter_operator == 2) { // xor
-          display = valueInRange != lithologySelected;
+          display = conductivityInRange != lithologySelected;
         }
 
         if (display) {
@@ -95,11 +97,11 @@ function createCustomShader(config): CustomShader {
         type: UniformType.FLOAT,
         value: max,
       },
-      u_filter_min: {
+      u_filter_conductivity_min: {
         type: UniformType.FLOAT,
         value: min,
       },
-      u_filter_max: {
+      u_filter_conductivity_max: {
         type: UniformType.FLOAT,
         value: max,
       },

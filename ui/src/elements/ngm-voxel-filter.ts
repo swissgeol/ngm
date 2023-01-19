@@ -26,8 +26,8 @@ export class NgmVoxelFilter extends LitElementI18n {
   }
 
   willUpdate() {
-    this.minValue = this.min = this.config.voxelColors!.range[0];
-    this.maxValue = this.max = this.config.voxelColors!.range[1];
+    this.minValue = this.min = this.config.voxelFilter!.conductivityRange[0];
+    this.maxValue = this.max = this.config.voxelFilter!.conductivityRange[1];
     this.hidden = false;
   }
 
@@ -87,8 +87,8 @@ export class NgmVoxelFilter extends LitElementI18n {
 
   applyFilter() {
     const shader = getVoxelShader(this.config);
-    shader.setUniform('u_filter_min', this.min);
-    shader.setUniform('u_filter_max', this.max);
+    shader.setUniform('u_filter_conductivity_min', this.min);
+    shader.setUniform('u_filter_conductivity_max', this.max);
 
     let lithologyExclude = 0;
     this.lithologyCheckbox.forEach((checkbox, index) => {
@@ -107,8 +107,8 @@ export class NgmVoxelFilter extends LitElementI18n {
 
   resetFilter() {
     const shader = getVoxelShader(this.config);
-    shader.setUniform('u_filter_min', this.minValue);
-    shader.setUniform('u_filter_max', this.maxValue);
+    shader.setUniform('u_filter_conductivity_min', this.minValue);
+    shader.setUniform('u_filter_conductivity_max', this.maxValue);
     shader.setUniform('u_filter_lithology_exclude', 0);
     shader.setUniform('u_filter_operator', 0);
     this.viewer.scene.requestRender();
