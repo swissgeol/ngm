@@ -14,7 +14,8 @@ function createCustomShader(config): CustomShader {
   const min = colors.range[0];
   const max = colors.range[1];
   const noData = colors.noData;
-  const lithology = config.voxelFilter?.lithology;
+  const lithology = config.voxelFilter.lithology;
+  const conductivityRange = config.voxelFilter.conductivityRange;
 
   let fragmentShaderText = '';
   if (lithology) {
@@ -99,11 +100,11 @@ function createCustomShader(config): CustomShader {
       },
       u_filter_conductivity_min: {
         type: UniformType.FLOAT,
-        value: min,
+        value: conductivityRange[0],
       },
       u_filter_conductivity_max: {
         type: UniformType.FLOAT,
-        value: max,
+        value: conductivityRange[1],
       },
       u_filter_lithology_exclude: {
         type: UniformType.INT,

@@ -114,6 +114,11 @@ const TEMPERATURE_HORIZON_ORDER = ['name', 'temp_c'];
 const TEMPERATURE_HORIZON_BGL_ORDER = ['name', 'temp_c', 'depth_bgl'];
 const EARTHQUAKES_PROP_ORDER = ['Time', 'Magnitude', 'Depthkm', 'EventLocationName', 'Details'];
 
+const voxelFilter = {
+  conductivityRange: [-9, -1],
+  lithologyDataName: 'Index',
+  conductivityDataName: 'logk',
+};
 
 const temperaturVoxelColors = {
   range: [0, 320],
@@ -238,6 +243,10 @@ const birrIndexVoxelColors = {
   ],
 };
 
+const birrIndexVoxelFilter = {
+  ...voxelFilter,
+};
+
 const aaretalIndexVoxelColors = {
   range: [1, 24],
   noData: -9999,
@@ -269,12 +278,6 @@ const aaretalIndexVoxelColors = {
   ],
 };
 
-const voxelFilter = {
-  conductivityRange: [-9, -1],
-  lithologyDataName: 'Index',
-  conductivityDataName: 'logk',
-};
-
 const aaretalVoxelFilter = {
   ...voxelFilter,
   lithology: [
@@ -303,6 +306,11 @@ const genevaIndexVoxelColors = {
     'rgb(168, 168, 0)',
     'rgb(255, 235, 191)',
   ]
+};
+
+
+const genevaIndexVoxelFilter = {
+  ...voxelFilter,
 };
 
 const vispIndexVoxelColors = {
@@ -370,6 +378,10 @@ const vispIndexVoxelColors = {
     null, // 59
     'rgb(255, 128, 0)', // 60
   ]
+};
+
+const vispIndexVoxelFilter = {
+  ...voxelFilter,
 };
 
 
@@ -742,7 +754,7 @@ const subsurface: LayerTreeNode = {
           url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-BIRR-Combined/tileset.json',
           voxelDataName: 'Index',
           voxelColors: birrIndexVoxelColors,
-          voxelFilter: voxelFilter,
+          voxelFilter: birrIndexVoxelFilter,
           label: t('lyr_voxel_birrfeld_litho_label'),
           layer: 'voxel_birrfeld_litho',
           opacityDisabled: true,
@@ -756,7 +768,7 @@ const subsurface: LayerTreeNode = {
           url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-BIRR-Combined/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
-          voxelFilter: voxelFilter,
+          voxelFilter: birrIndexVoxelFilter,
           label: t('lyr_voxel_birrfeld_logk_label'),
           layer: 'voxel_birrfeld_logk',
           opacityDisabled: true,
@@ -770,7 +782,7 @@ const subsurface: LayerTreeNode = {
           url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-GENF-Combined/tileset.json',
           voxelDataName: 'Index',
           voxelColors: genevaIndexVoxelColors,
-          voxelFilter: voxelFilter,
+          voxelFilter: genevaIndexVoxelFilter,
           label: t('lyr_voxel_geneva_litho_label'),
           layer: 'voxel_geneva_litho',
           opacityDisabled: true,
@@ -784,7 +796,7 @@ const subsurface: LayerTreeNode = {
           url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-GENF-Combined/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
-          voxelFilter: voxelFilter,
+          voxelFilter: genevaIndexVoxelFilter,
           label: t('lyr_voxel_geneva_logk_label'),
           layer: 'voxel_geneva_logk',
           opacityDisabled: true,
@@ -798,7 +810,7 @@ const subsurface: LayerTreeNode = {
           url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-VISP-Combined/tileset.json',
           voxelDataName: 'Index',
           voxelColors: vispIndexVoxelColors,
-          voxelFilter: voxelFilter,
+          voxelFilter: vispIndexVoxelFilter,
           label: t('lyr_voxel_visp_litho_label'),
           layer: 'voxel_visp_litho',
           opacityDisabled: true,
@@ -812,7 +824,7 @@ const subsurface: LayerTreeNode = {
           url: 'https://download.swissgeol.ch/testvoxel/20230113/Voxel-VISP-Combined/tileset.json',
           voxelDataName: 'logk',
           voxelColors: logkVoxelColors,
-          voxelFilter: voxelFilter,
+          voxelFilter: vispIndexVoxelFilter,
           label: t('lyr_voxel_visp_logk_label'),
           layer: 'voxel_visp_logk',
           opacityDisabled: true,
