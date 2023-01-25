@@ -7,10 +7,28 @@ import MapChooser from './MapChooser';
 import {addSwisstopoLayer} from './swisstopoImagery.js';
 
 import type {ImageryLayer, WebGLOptions} from 'cesium';
-import {DirectionalLight, ScreenSpaceEventHandler, Matrix4, Transforms, KeyboardEventModifier,
-  CameraEventType, SingleTileImageryProvider, ScreenSpaceEventType, PostProcessStage, Cartesian4, CesiumInspector,
-  Rectangle, Ion, Color, Cartesian3, Ellipsoid, JulianDate, IonResource, CesiumTerrainProvider, RequestScheduler,
-  Viewer} from 'cesium';
+import {
+  CameraEventType,
+  Cartesian3,
+  Cartesian4,
+  CesiumTerrainProvider,
+  Color,
+  DirectionalLight,
+  Ellipsoid,
+  Ion,
+  IonResource,
+  JulianDate,
+  KeyboardEventModifier,
+  Matrix4,
+  PostProcessStage,
+  Rectangle,
+  RequestScheduler,
+  ScreenSpaceEventHandler,
+  ScreenSpaceEventType,
+  SingleTileImageryProvider,
+  Transforms
+} from 'cesium';
+import {CesiumInspector, Viewer} from '@cesium/widgets';
 
 
 window['CESIUM_BASE_URL'] = '.';

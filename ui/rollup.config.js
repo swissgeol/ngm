@@ -12,7 +12,7 @@ import cssimport from 'postcss-import';
 import postcssurl from 'postcss-url';
 import autoprefixer from 'autoprefixer';
 
-const cesiumSource = 'node_modules/cesium/Source';
+const cesiumSource = 'node_modules/@cesium/engine/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
 const extensions = ['.ts', '.js'];
 
@@ -70,6 +70,7 @@ const config = {
       // exclude: 'node_modules/**'
       extensions: extensions,
       exclude: [
+        'node_modules/@cesium/**',
         'node_modules/cesium/**',
         'node_modules/core-js/**',
         'node_modules/@babel/**',
@@ -85,7 +86,7 @@ const config = {
         {src: 'robots_prod.txt', dest: 'dist/'},
         {src: cesiumSource + '/' + cesiumWorkers, dest: 'dist/'},
         {src: cesiumSource + '/Assets', dest: 'dist/'},
-        {src: cesiumSource + '/Widgets', dest: 'dist/'},
+        {src: 'node_modules/@cesium/widgets/Source', dest: 'dist/'},
         {src: cesiumSource + '/ThirdParty/', dest: 'dist/'},
         {src: 'src/images', dest: 'dist/'},
         {src: 'node_modules/@fontsource/inter/files/*', dest: 'dist/fonts/'},

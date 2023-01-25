@@ -28,7 +28,7 @@
 @import 'fomantic-ui-css/components/header.css';
 @import 'fomantic-ui-css/components/card.css';
 
-@import 'cesium/Source/Widgets/widgets.css';
+@import '@cesium/engine/Source/Widget/CesiumWidget.css';
 
 @import 'search.css';
 @import 'ngm-height-slider.css';

@@ -1,12 +1,12 @@
 import CopyPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import {resolve, dirname, join} from 'path';
+import {dirname, join, resolve} from 'path';
 import {fileURLToPath} from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const cesiumSource = __dirname + '/node_modules/cesium/Source';
-const cesiumWorkers = '../Build/Cesium/Workers';
+const cesiumSource = __dirname + '/node_modules/@cesium/engine/Source';
+const cesiumWorkers = '../Build/Workers';
 const devMode = process.env.NODE_ENV !== 'production';
 
 
@@ -38,16 +38,11 @@ export default {
   mode: devMode ? 'development' : 'production',
   resolve: {
     extensions: ['.ts', '.js'],
-    fallback: {
-      http: false,
-      https: false,
-      zlib: false,
-    },
     alias: {
-      cesium: resolve(__dirname, 'node_modules/cesium'),
+      cesium: resolve(__dirname, 'node_modules/@cesium/engine'),
       // we need the aliases below for CSS :( don't know why
-      './cesium/Build': resolve(__dirname, 'node_modules/cesium/Build'),
-      './cesium': resolve(__dirname, 'node_modules/cesium/Source'),
+      './cesium/Build': resolve(__dirname, 'node_modules/@cesium/engine/Build'),
+      './cesium': resolve(__dirname, 'node_modules/@cesium/engine/Source'),
       './fomantic-ui-css': resolve(__dirname, 'node_modules/fomantic-ui-css'),
       './images': resolve(__dirname, 'src/images'),
       './@fontsource/inter': resolve(__dirname, 'node_modules@fontsource/inter'),
@@ -57,6 +52,7 @@ export default {
       'https': false,
       'http': false,
       'url': false,
+      'path': resolve(__dirname, 'path-browserify')
     }
   },
   output: {
@@ -136,7 +132,7 @@ export default {
         {from: 'locales/', to: './locales/'},
         {from: cesiumSource + '/' + cesiumWorkers, to: 'Workers/'},
         {from: cesiumSource + '/Assets/', to: 'Assets/'},
-        {from: cesiumSource + '/Widgets/', to: 'Widgets/'},
+        {from: 'node_modules/@cesium/widgets/Source', to: 'Widgets/'},
         {from: cesiumSource + '/ThirdParty/', to: 'ThirdParty/'},
         {from: 'src/images/', to: 'images/'},
         {from: 'node_modules/@fontsource/inter/files/*', to: 'fonts/[name][ext]'},

@@ -98,6 +98,14 @@ function createCustomShader(config): CustomShader {
         type: UniformType.FLOAT,
         value: max,
       },
+      u_filter_min: {
+        type: UniformType.FLOAT,
+        value: min,
+      },
+      u_filter_max: {
+        type: UniformType.FLOAT,
+        value: max,
+      },
       u_filter_conductivity_min: {
         type: UniformType.FLOAT,
         value: conductivityRange[0],
