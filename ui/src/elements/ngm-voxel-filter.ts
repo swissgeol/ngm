@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import {html, nothing} from 'lit';
-import {customElement, property, queryAll} from 'lit/decorators.js';
+import {customElement, property, queryAll, state} from 'lit/decorators.js';
+import {createRef, Ref, ref} from 'lit/directives/ref.js';
 import {LitElementI18n} from '../i18n';
 import draggable from './draggable';
 import {dragArea} from './helperElements';
@@ -20,6 +21,9 @@ export class NgmVoxelFilter extends LitElementI18n {
 
   private minConductivityValue = NaN;
   private maxConductivityValue = NaN;
+
+  minConductivityRef: Ref<HTMLInputElement> = createRef();
+  maxConductivityRef: Ref<HTMLInputElement> = createRef();
 
   shouldUpdate(): boolean {
     return this.config !== undefined;
@@ -43,11 +47,11 @@ export class NgmVoxelFilter extends LitElementI18n {
           <div class="two fields">
             <div class="field">
               <label>${i18next.t('vox_filter_min')}</label>
-              <input type="number" step="0.01" .value="${this.minConductivity}" min="${this.minConductivityValue}" @input="${evt => this.minConductivity = evt.target.value}"/>
+              <input type="number" step="0.01" .value="${this.minConductivity}" min="${this.minConductivityValue}" max="${this.maxConductivity}" ${ref(this.minConductivityRef)} @input="${evt => this.minConductivityChanged(evt)}"/>
             </div>
             <div class="field">
               <label>${i18next.t('vox_filter_max')}</label>
-              <input type="number" step="0.01" .value="${this.maxConductivity}" max="${this.maxConductivityValue}" @input="${evt => this.maxConductivity = evt.target.value}"/>
+              <input type="number" step="0.01" .value="${this.maxConductivity}" min="${this.minConductivity}" max="${this.maxConductivityValue}" ${ref(this.maxConductivityRef)} @input="${evt => this.maxConductivityChanged(evt)}"/>
             </div>
           </div>
         </div>
@@ -91,10 +95,24 @@ export class NgmVoxelFilter extends LitElementI18n {
     `;
   }
 
+  minConductivityChanged(evt) {
+    this.minConductivity = parseFloat(evt.target.value);
+    this.maxConductivityRef.value.min = this.minConductivity;
+  }
+
+  maxConductivityChanged(evt) {
+    this.maxConductivity = parseFloat(evt.target.value);
+    this.minConductivityRef.value.max = this.maxConductivity;
+  }
+
   close() {
     this.hidden = true;
     this.resetFilter();
     this.config = undefined;
+
+
+
+
   }
 
   applyFilter() {
