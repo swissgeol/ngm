@@ -5,8 +5,10 @@ import DrawStore from '../store/draw';
 import {showBannerError, showSnackbarInfo} from '../notifications';
 import i18next from 'i18next';
 import type {CesiumDraw} from '../draw/CesiumDraw';
-import type {Cartesian2, Event, exportKmlResultKml, Viewer} from 'cesium';
+import type {Cartesian2, Event, exportKmlResultKml, PerspectiveFrustum, Viewer} from 'cesium';
+import {Math as CMath, sampleTerrainMostDetailed} from 'cesium';
 import {
+  CallbackProperty,
   Cartesian3,
   Cartographic,
   Color,
@@ -511,31 +513,47 @@ export class GeometryController {
     return entity;
   }
 
-  addMeasureGeometry(positions: Cartesian3[]) {
-    const distances = positions.map((position, key) => {
-      if (key === positions.length - 1) return 0;
-      return Cartesian3.distance(position, positions[key + 1]) / 1000;
+  async addMeasureGeometry(positions: Cartesian3[]) {
+    const cartPositions = positions.map(pos => Cartographic.fromCartesian(pos));
+    // clamp to terrain
+    const clampedPositionsCart = await sampleTerrainMostDetailed(this.viewer!.terrainProvider, cartPositions);
+    const clampedPositions = clampedPositionsCart.map(pos => Cartographic.toCartesian(pos));
+    // clamp to tiles
+    // const clampedPositions = await this.viewer!.scene.clampToHeightMostDetailed(positions);
+
+    const distances = clampedPositions.map((position, key) => {
+      if (key === clampedPositions.length - 1) return 0;
+      return Cartesian3.distance(position, clampedPositions[key + 1]) / 1000;
     }, 0);
     this.measureDataSource.entities.add({
       show: true,
       polyline: {
         show: true,
-        positions: positions,
+        positions: clampedPositions,
         clampToGround: false,
         width: 4,
         material: DEFAULT_AOI_COLOR.withAlpha(GEOMETRY_LINE_ALPHA),
       }
     });
-    this.measureDataSource.entities.add({
-      position: positions[positions.length - 1],
-      point: {
-        color: Color.WHITE,
-        outlineWidth: 1,
-        outlineColor: Color.BLACK,
-        pixelSize: 5,
-        heightReference: HeightReference.NONE,
-      },
-      label: getDimensionLabel('line', distances)
+    clampedPositions.forEach((pos, indx) => {
+      const desiredPixelSize = 300;
+      const entity: Entity.ConstructorOptions = {
+        position: pos,
+        ellipsoid: {
+          radii: new CallbackProperty(() => {
+            const distance = Cartesian3.distance(this.viewer!.scene.camera.positionWC, pos);
+            const canvasHeight = this.viewer!.scene.canvas.height;
+            const metersPerPixel = distance * 2.0 * Math.tan(CMath.toRadians((<PerspectiveFrustum> this.viewer!.scene.camera.frustum).fovy * 0.5)) / canvasHeight;
+            const sizeInMeters = desiredPixelSize * metersPerPixel;
+            return new Cartesian3(sizeInMeters, sizeInMeters, sizeInMeters);
+          }, false),
+          material: Color.WHITE
+        }
+      };
+      if (indx === positions.length - 1) {
+        entity.label = getDimensionLabel('line', distances);
+      }
+      this.measureDataSource.entities.add(entity);
     });
   }
 
