@@ -14,11 +14,30 @@ import {
   pickCenter,
   projectPointOntoVector,
 } from '../cesiumutils';
-import {SLICING_BOX_HEIGHT, SLICING_BOX_LOWER_LIMIT, SLICING_BOX_MIN_SIZE} from '../constants';
-import {getPercent, interpolateBetweenNumbers} from '../utils';
-import type {Quaternion, Cesium3DTileset} from 'cesium';
+import {SLICING_BOX_HEIGHT, SLICING_BOX_LOWER_LIMIT, SLICING_BOX_MIN_SIZE} from '../constants'; // FIXME: this should come from slicer options
+import type {Quaternion, Cesium3DTileset, Viewer} from 'cesium';
 import {rectanglify} from '../draw/helpers';
 
+export function executeForAllPrimitives(viewer: Viewer, functionToExecute: (primitive: any) => void) {
+  const primitives = viewer.scene.primitives;
+  for (let i = 0, ii = primitives.length; i < ii; i++) {
+    const primitive = primitives.get(i);
+    if (primitive.ready || !primitive.readyPromise)
+      functionToExecute(primitive);
+    else
+      primitive.readyPromise.then(() => functionToExecute(primitive));
+  }
+}
+
+export function interpolateBetweenNumbers(min: number, max: number, percent: number): number {
+  const diff = max - min;
+  return min + ((percent / 100) * diff);
+}
+
+export function getPercent(min: number, max: number, value: number): number {
+  const diff = max - min;
+  return value / diff * 100;
+}
 
 export interface BBox {
   center: Cartesian3,

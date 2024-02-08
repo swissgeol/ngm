@@ -10,8 +10,8 @@ import {
   Cartographic,
   Color,
   EntityCollection} from 'cesium';
-import {extendKmlWithProperties, getMeasurements, updateHeightForCartesianPositions} from '../cesiumutils';
-import {calculateBoxHeight} from '../slicer/helper';
+import {extendKmlWithProperties, getMeasurements, updateHeightForCartesianPositions} from '../geoblocks/cesium-helpers/cesiumutils';
+import {calculateBoxHeight} from '../geoblocks/cesium-helpers/slicer/helper';
 import {saveAs} from 'file-saver';
 import {translated} from '../i18n';
 import type {GeometryTypes, NgmGeometry} from './interfaces';

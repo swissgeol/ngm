@@ -15,8 +15,9 @@ import {
 } from 'cesium';
 import {getDimensionLabel, rectanglify} from './helpers';
 import {getMeasurements, updateHeightForCartesianPositions} from '../cesiumutils';
-import type {GeometryTypes} from '../toolbox/interfaces';
-import DrawStore from '../store/draw';
+import DrawStore from '../../../store/draw'; // FIXME: dependency to remove by relying on an event
+
+export type GeometryTypes = 'point' | 'line' | 'rectangle' | 'polygon'
 
 export interface DrawOptions {
   fillColor: string | Color;
@@ -733,5 +734,3 @@ export class CesiumDraw extends EventTarget {
     };
   }
 }
-
-

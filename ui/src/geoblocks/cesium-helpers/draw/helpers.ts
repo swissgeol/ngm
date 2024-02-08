@@ -13,6 +13,7 @@ export function getDimensionLabelText(type: GeometryTypes, distances: number[]) 
   return text.includes('undefined') ? '' : text;
 }
 
+// FIXME: this looks like application specific stuff
 export function getDimensionLabel(type: GeometryTypes, distances: number[]) {
   return {
     text: getDimensionLabelText(type, distances),

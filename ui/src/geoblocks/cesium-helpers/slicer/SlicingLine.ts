@@ -1,5 +1,5 @@
 import {getOrthogonalViewPoints, planeFromTwoPoints} from '../cesiumutils';
-import {executeForAllPrimitives} from '../utils';
+import {executeForAllPrimitives} from './helper';
 import {createClippingPlanes, createCPCModelMatrixFromSphere, getClippingPlaneFromSegmentWithTricks} from './helper';
 import SlicingToolBase from './SlicingToolBase';
 import {

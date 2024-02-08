@@ -39,7 +39,7 @@ import {
   syncStoredView
 } from './permalink';
 import i18next from 'i18next';
-import Slicer from './slicer/Slicer';
+import Slicer from './geoblocks/cesium-helpers/slicer/Slicer';
 
 import {setupI18n} from './i18n.js';
 import QueryManager from './query/QueryManager';

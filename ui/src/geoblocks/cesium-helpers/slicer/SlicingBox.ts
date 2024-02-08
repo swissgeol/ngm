@@ -9,7 +9,7 @@ import {
   CornerType,
   VoxelPrimitive,
 } from 'cesium';
-import {executeForAllPrimitives} from '../utils';
+import {executeForAllPrimitives} from './helper';
 import SlicerArrows from './SlicerArrows';
 import type {BBox} from './helper';
 import {
@@ -25,7 +25,7 @@ import {
   SLICE_BOX_ARROWS_OUTSIDE,
   SLICING_BOX_MIN_SIZE,
   SLICING_GEOMETRY_COLOR
-} from '../constants';
+} from '../constants'; // FIXME: top pass as options
 import {
   pickCenterOnEllipsoid,
   planeFromTwoPoints,

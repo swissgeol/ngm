@@ -16,11 +16,11 @@ import {DEFAULT_AOI_COLOR, GEOMETRY_DATASOURCE_NAME, NO_EDIT_GEOMETRY_DATASOURCE
 import MainStore from '../store/main';
 import LocalStorageController from '../LocalStorageController';
 import ToolboxStore from '../store/toolbox';
-import {getValueOrUndefined} from '../cesiumutils';
+import {getValueOrUndefined} from '../geoblocks/cesium-helpers/cesiumutils';
 import type {NgmGeometry} from './interfaces';
 import {getAreaPositions, updateBoreholeHeights, updateEntityVolume} from './helpers';
 import {getSliceParam} from '../permalink';
-import {CesiumDraw} from '../draw/CesiumDraw';
+import {CesiumDraw} from '../geoblocks/cesium-helpers/draw/CesiumDraw';
 import DrawStore from '../store/draw';
 import {GeometryController} from './GeometryController';
 import {showSnackbarInfo} from '../notifications';
@@ -243,7 +243,7 @@ export class NgmToolbox extends LitElementI18n {
         ${i18next.t(this.activeTool ? `tbx_${this.activeTool}` : 'lsb_tools')}
         <div class="ngm-close-icon" @click=${() => this.onClose()}></div>
       </div>
-      <div class="ngm-tools-list" .hidden="${this.activeTool}">
+      <div class="ngm-tools-list" .hidden="${!!this.activeTool}">
         <div class="ngm-tools-list-item" @click=${() => this.activeTool = 'draw'}>
           <div class="ngm-vector-icon"></div>
           <div>${i18next.t('tbx_draw')}</div>

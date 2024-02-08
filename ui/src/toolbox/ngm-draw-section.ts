@@ -8,7 +8,7 @@ import ToolboxStore from '../store/toolbox';
 import type {GeometryTypes} from './interfaces';
 import {clickOnElement} from '../utils';
 import DrawStore from '../store/draw';
-import type {CesiumDraw} from '../draw/CesiumDraw';
+import type {CesiumDraw} from '../geoblocks/cesium-helpers/draw/CesiumDraw';
 import {Subscription} from 'rxjs';
 
 const fileUploadInputId = 'fileUpload';

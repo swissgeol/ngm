@@ -14,8 +14,8 @@ import {
   Rectangle,
   Transforms
 } from 'cesium';
-import type {NgmGeometry} from './toolbox/interfaces';
-import earcut from 'earcut';
+import type {NgmGeometry} from '../../toolbox/interfaces'; // FIXME: we should create a dedicate type
+import earcut from 'earcut'; // FIXME: should this be an optional dependency? Loaded dynamically?
 
 const julianDate = new JulianDate();
 
