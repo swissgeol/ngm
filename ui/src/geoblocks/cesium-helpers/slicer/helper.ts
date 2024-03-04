@@ -10,14 +10,14 @@ import {
   Transforms,
 } from 'cesium';
 import {
-  getDirectionFromPoints,
-  pickCenter,
-  projectPointOntoVector,
+    getDirectionFromPoints,
+    pickCenter,
+    projectPointOntoVector, rectanglify,
 } from '../cesiumutils';
-import {SLICING_BOX_HEIGHT, SLICING_BOX_LOWER_LIMIT, SLICING_BOX_MIN_SIZE} from '../constants';
-import {getPercent, interpolateBetweenNumbers} from '../utils';
 import type {Quaternion, Cesium3DTileset} from 'cesium';
-import {rectanglify} from '../draw/helpers';
+
+//todo
+import {SLICING_BOX_HEIGHT, SLICING_BOX_LOWER_LIMIT, SLICING_BOX_MIN_SIZE} from '../../../constants';
 
 
 export interface BBox {
@@ -286,7 +286,18 @@ export function moveSlicingBoxCorners(
   return bothSideMove;
 }
 
-export function calculateBoxHeight(height, lowerLimit, area, altitude?) {
+
+function interpolateBetweenNumbers(min: number, max: number, percent: number): number {
+  const diff = max - min;
+  return min + ((percent / 100) * diff);
+}
+
+function getPercent(min: number, max: number, value: number): number {
+  const diff = max - min;
+  return value / diff * 100;
+}
+
+export function calculateBoxHeight(height: number, lowerLimit: number, area: number, altitude?: number) {
   // values from https://jira.camptocamp.com/browse/GSNGM-567
   if (area <= 0.005) {
     height = 300;

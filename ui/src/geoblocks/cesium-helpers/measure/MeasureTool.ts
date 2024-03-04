@@ -50,7 +50,7 @@ export default class MeasureTool {
                 pixelSizeDefault: this.measureOptions.pointSize,
                 heightReference: HeightReference.NONE
             },
-            lineClampToGround: false
+            lineClampToGround: false,
         });
         this.draw.type = 'line';
         this.draw.addEventListener('drawend', (evt) => this.endMeasuring((<CustomEvent>evt).detail));
